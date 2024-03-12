@@ -1,0 +1,25 @@
+<body>
+    <input id="input"><br>
+    <span id="span"></span>
+</body>
+<script>
+    let obj = {}
+    const input = document.getElementById('input')
+    const span = document.getElementById('span')
+    Object.defineProperty(obj, 'text', {
+        get() {
+            console.log('获取到了数据');
+        },
+        set(newVal) {
+            console.log('更新了数据');
+            input.value = newVal
+            // span.innerHTML = newVal
+            span.textContent = newVal
+        }
+    })
+
+    // 输入事件监听
+    input.addEventListener('keyup', function (e) {
+        obj.text = e.target.value
+    })
+</script>

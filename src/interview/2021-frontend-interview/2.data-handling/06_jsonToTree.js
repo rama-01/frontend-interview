@@ -1,5 +1,8 @@
 const jsonToTree = (source) => {
     let res = []
+    if (!Array.isArray(source)) {
+        return res
+    }
     let map = {}
     source.forEach(item => map[item.id] = item)
     source.forEach(item => {
