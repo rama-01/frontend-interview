@@ -1,0 +1,23 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "promises-aplus-tests MyPromise.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rama-01/frontend-interview.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rama-01/frontend-interview/issues"
+  },
+  "homepage": "https://github.com/rama-01/frontend-interview#readme",
+  "dependencies": {
+    "promises-aplus-tests": "^2.1.2"
+  }
+}
