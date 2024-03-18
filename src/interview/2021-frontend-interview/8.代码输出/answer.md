@@ -42,5 +42,11 @@
 30. 1 3 5 6 
 31. 2 3 7 8 4 5 6 1
 
-### this
-1. 
+### 2.this
+1. 2
+2. 10 10  
+   箭头函数this在定义时就被确定，指向父级所处上下文，并且无法通过call,apply,bind改变其指向。
+3. Window  
+   如果第⼀个参数传⼊的对象调⽤者是null或者undefined，call⽅法将把全局对象（浏览器上是window对象）作为this的值。
+4. cuggz undefined
+5. 

@@ -1,0 +1,16 @@
+<script>
+    var a = 10
+    var obj = {
+        a: 20,
+        // say: () => {
+        //     console.log(this.a) //箭头函数的特性决定了它的this值在定义时就被确定，并且无法通过call、apply、bind等方法来改变其上下文。
+        // }
+        // 修改为：
+        say: function () {
+            console.log(this.a) //20 30
+        }
+    }
+    obj.say()
+    var anotherObj = { a: 30 }
+    obj.say.apply(anotherObj)
+</script>
