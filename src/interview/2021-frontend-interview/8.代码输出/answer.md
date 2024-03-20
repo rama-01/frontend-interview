@@ -65,4 +65,31 @@
 
 ### 3.作用域，变量提升和闭包
 1. 1  undefined Uncaught ReferenceError: x is not defined
-2. 
+2. undefined undefined 3 3  undefined 3
+3. Goodbye Jack
+   function,var声明的变量都会提升hoist
+4. fn1 Uncaught TypeError fn2
+5. 10 Uncaught ReferenceError
+6. 3
+7. undefined 0 0 0 
+   undefined 0 1 2 
+   undefined 0 1 1
+8. false
+   对象的非空引用会被视为true，空引用则被视为false；当一个对象参与条件比较时，它会被求值，求值的结果是数组成为一个字符串，[]为'',[1,2]为'1,2'
+   
+### 4. 原型和原型链
+1.  
+2. 2 4 1 1 2 3 3 
+3. a Uncaught TypeError a b
+   f不是Function实例，而F是Function和Object的实例
+4. 4 2 1
+5. true
+6. 9999 4400
+7. 1 undefined 2
+8. 1 [1,2,1] 5  
+   11 [1,2,1] 5  
+   12 [1,2,1] 5  
+   1 [1,2,1] 5  
+   5 [1,2,1,11,12] 5  
+   6 [1,2,1,11,12] 5
+9. true
