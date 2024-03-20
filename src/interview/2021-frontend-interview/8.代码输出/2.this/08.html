@@ -1,0 +1,19 @@
+<script>
+    window.number = 2;
+    var obj = {
+        number: 3,
+        db1: (function () {
+            console.log(this);
+            this.number *= 4;  //this -> Window
+            return function () {
+                console.log(this);  //this -> db1() Window; obj.db1() -> obj
+                this.number *= 5;
+            }
+        })()
+    }
+    var db1 = obj.db1;
+    // db1();
+    obj.db1();
+    // console.log(obj.number); // 15
+    // console.log(window.number); // 40
+</script>

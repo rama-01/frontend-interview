@@ -50,3 +50,19 @@
    如果第⼀个参数传⼊的对象调⽤者是null或者undefined，call⽅法将把全局对象（浏览器上是window对象）作为this的值。
 4. cuggz undefined
 5. 
+6. 1111 Window 1111 obj Window  
+   getPro处于pro中，⽽对象不构成单独的作⽤域，所以箭头的函数的this就指向了全局作⽤域window。
+7. bar bar undefined bar
+8. 15 40
+9. 10 2
+10. 2 1 1 
+11. 3 6 
+12. 20 10 20
+13. undefined 6
+14. 2 3 2 4
+15. 2 2 3
+    this绑定优先级：new绑定 > 显式绑定 > 隐式绑定 > 默认绑定。
+
+### 3.作用域，变量提升和闭包
+1. 1  undefined Uncaught ReferenceError: x is not defined
+2. 
