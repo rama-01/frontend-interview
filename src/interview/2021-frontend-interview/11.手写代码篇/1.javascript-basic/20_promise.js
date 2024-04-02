@@ -4,7 +4,7 @@ const REJECTED = 'rejected'
 
 class MyPromise {
     constructor(executor) {
-        const that = this  //保存promise构造器中this指向
+        const that = this
         that.state = PENDING
         that.value = null
         that.reason = null
@@ -15,12 +15,12 @@ class MyPromise {
             if (that.state === PENDING) {
                 that.state = RESOLVED
                 that.value = value
-                that.onResolvedCallbacks.forEach(cb => cb(that.value))
+                that.onResolvedCallbacks.forEach(cb => cb(that.value))  //这里传递给cb回调中的参数是否可以使用resolve的参数
             }
         }
 
         function reject(reason) {
-            if (that.state === PENDING) {
+            if (that.state === REJECTED) {
                 that.state = REJECTED
                 that.reason = reason
                 that.onRejectedCallbacks.forEach(cb => cb(that.reason))
@@ -34,41 +34,43 @@ class MyPromise {
         }
     }
 
-    resolvePromise(promise, x, resolve, reject) {  //#03
+    resolvePromise(promise, x, resolve, reject) {
         if (promise === x) {
-            throw new TypeError("The promise and the return value are the same")
+            throw new TypeError('the promise and the return value are the same')
         }
-
         if (x instanceof MyPromise) {
-            x.then(this.resolvePromise(promise, y, resolve, reject), reject)
+            x.then(y => resolvePromise(promise, y, resolve, reject))  //在js class中定义的方法是否可以直接访问它自己？
         }
+        if (typeof x === 'object' && x !== null || typeof x === 'function') {
+            let then
 
-        if (typeof x === 'object' || typeof x === 'function') {
-            if (x === null) {
-                return resolve(x)
-            }
             try {
-                const then = x.then
+                then = x.then
             } catch (error) {
                 reject(error)
             }
+
             if (typeof then === 'function') {
-                let called = false  //#01
+                let called = false  //避免then回调被多次调用
+
                 try {
-                    then.call(x,
-                        function (y) {
-                            if (called) return
+                    then.call(x, y => {
+                        if (!called) {
                             called = true
-                            resolvePromise(promise, y, resolve, reject)  //#02
-                        },
-                        function (r) {
-                            if (called) return
+                            resolvePromise(promise, y, resolve, reject)
+                        }
+                    }, r => {
+                        if (!called) {
                             called = true
                             reject(r)
-                        })
-                } catch (error) {
-                    if (called) return
-                    reject(error)
+                        }
+                    })
+
+                } catch (e) {
+                    if (!called) {
+                        called = true
+                        reject(e)
+                    }
                 }
             } else {
                 resolve(x)
@@ -79,20 +81,17 @@ class MyPromise {
     }
 
     then(onResolved, onRejected) {
+        // 包装onResolved,onRejected,使得它必然是一个函数
         const that = this
+
         let realOnResolved = onResolved
-        // 包装then的参数，并判断如果不是函数类型，将其包装成函数并作为返回值
-        if (typeof realOnResolved !== 'function') {
-            realOnResolved = function (value) {
-                return value
-            }
+        if (typeof onResolved !== 'function') {
+            realOnResolved = v => v
         }
+
         let realOnRejected = onRejected
-        if (typeof realOnRejected !== 'function') {
-            realOnRejected = function (reason) {
-                // return reason
-                throw reason
-            }
+        if (typeof onRejected !== 'function') {
+            realOnRejected = r => r
         }
 
         if (that.state === RESOLVED) {
@@ -102,14 +101,15 @@ class MyPromise {
                         onResolved(that.value)
                     } else {
                         const x = realOnResolved(that.value)
-                        that.resolvePromise(promise, x, resolve, reject)
+                        resolvePromise(promise, x, resolve, reject)
                     }
-                } catch (error) {
-                    reject(error)
+                } catch (e) {
+                    reject(e)
                 }
             })
             return promise
         }
+
         if (that.state === REJECTED) {
             const promise = new MyPromise(function (resolve, reject) {
                 try {
@@ -117,18 +117,17 @@ class MyPromise {
                         onRejected(that.reason)
                     } else {
                         const x = realOnRejected(that.reason)
-                        that.resolvePromise(promise, x, resolve, reject)
+                        resolvePromise(promise, x, resolve, reject)
                     }
-                } catch (error) {
-                    reject(error)
+                } catch (e) {
+                    reject(e)
                 }
             })
             return promise
         }
-        // 解决执行器函数中异步执行回调，状态不确定的问题
-        if (that.state === PENDING) {
+
+        if (that.state === 'PENDING') {
             const promise = new MyPromise(function (resolve, reject) {
-                // 使用setTimeout包装回调，目的是使得它始终是异步执行的，即在下一轮事件循环中再执行，这是promise处理异步的通用模式
                 that.onResolvedCallbacks.push(function () {
                     setTimeout(function () {
                         try {
@@ -136,46 +135,30 @@ class MyPromise {
                                 onResolved(that.value)
                             } else {
                                 const x = realOnResolved(that.value)
-                                that.resolvePromise(promise, x, resolve, reject)
+                                resolvePromise(promise, x, resolve, reject)
                             }
-                        } catch (error) {
-                            reject(error)
+                        } catch (e) {
+                            reject(e)
                         }
-                    }, 0)
-                }
-                )
-                that.onRejectedCallbacks.push(function () {
+                    }, 0);
+                })
+
+                that.onRejectedCallbacks.push(function (resolve, reject) {
                     setTimeout(function () {
                         try {
                             if (typeof onRejected === 'function') {
                                 onRejected(that.reason)
                             } else {
                                 const x = realOnRejected(that.reason)
-                                that.resolvePromise(promise, x, resolve, reject)
+                                resolvePromise(promise, x, resolve, reject)
                             }
-                        } catch (error) {
-                            reject(error)
+                        } catch (e) {
+                            reject(e)
                         }
                     }, 0)
-                }
-                )
+                })
             })
             return promise
         }
     }
 }
-
-/* promise的值穿透 */
-const promise2 = new MyPromise((resolve, reject) => {
-    // 传入一个异步操作
-    setTimeout(() => {
-        resolve('成功');
-    }, 1000);
-}).then().then().then(
-    (data) => {
-        console.log('success', data)
-    },
-    (err) => {
-        console.log('faild', err)
-    }
-)
