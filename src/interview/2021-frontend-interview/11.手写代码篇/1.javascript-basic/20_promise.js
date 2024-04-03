@@ -86,12 +86,16 @@ class MyPromise {
 
         let realOnResolved = onResolved
         if (typeof onResolved !== 'function') {
-            realOnResolved = v => v
+            realOnResolved = function (value) {
+                return value
+            }
         }
 
         let realOnRejected = onRejected
         if (typeof onRejected !== 'function') {
-            realOnRejected = r => r
+            realOnRejected = function (reason) {
+                return reason
+            }
         }
 
         if (that.state === RESOLVED) {
@@ -160,5 +164,68 @@ class MyPromise {
             })
             return promise
         }
+    }
+
+    all(promiseList) {
+        const resPromise = new MyPromise(function (resolve, reject) {
+            let count = 0
+            let res = []
+            promiseList.forEach(function (promise, index) {
+                MyPromise.resolve(promise).then(function (value) {
+                    count++
+                    res[index] = resolve(value)
+                    if (count === promiseList.length) {
+                        return res
+                    }
+                }, function (reason) {
+                    reject(reason)
+                })
+            })
+        })
+        return resPromise
+    }
+
+    race(promiseList) {
+        const resPromise = new MyPromise(function (resolve, reject) {
+            if (promiseList.length === 0) return resolve()
+            for (let i = 0; i < promiseList.length; i++) {
+                MyPromise.resolve(promiseList[i]).then(function (value) {
+                    return resolve(value)
+                }, function (reason) {
+                    return reject(reason)
+                })
+            }
+        })
+        return resPromise
+    }
+
+    allSettled(promiseList) {
+        const resPromise = new MyPromise(function (resolve, reject) {
+            if (promiseList.length === 0) return resolve()
+            let count = 0
+            const res = []
+            const n = promiseList.length
+            for (let i = 0; i < n; i++) {
+                const currentPromise = promiseList[i]
+                MyPromise.resolve(currentPromise).then(function (value) {
+                    count++
+                    res[i] = resolve(value)
+                    if (count === n) {
+                        return res
+                    }
+                }, function (reason) {
+                    count++
+                    res[i] = reject(reason)
+                    if (count === n) {
+                        return res
+                    }
+                })
+            }
+            return resPromise
+        })
+    }
+
+    finally(callback) {
+        return this.then(value => MyPromise.resolve(callback()).then(() => value), error => MyPromise.resolve(callback()).then(() => { throw error }))
     }
 }
