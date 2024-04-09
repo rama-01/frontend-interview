@@ -1,1 +1,0 @@
-type T1 = ReturnType<() => string>; // string

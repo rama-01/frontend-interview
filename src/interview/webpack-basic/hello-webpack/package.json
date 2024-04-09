@@ -1,0 +1,19 @@
+{
+  "name": "hello-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack -d --watch",
+    "prod": "webpack -p"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "2.0",
+    "html-webpack-plugin": "^2.30.1",
+    "style-loader": "1.0",
+    "uglifyjs-webpack-plugin": "1",
+    "webpack": "3.6.0"
+  }
+}

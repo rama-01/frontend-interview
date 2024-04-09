@@ -18,10 +18,13 @@
   },
   "homepage": "https://github.com/rama-01/frontend-interview#readme",
   "dependencies": {
+    "-": "0.0.1",
     "create-vite": "^5.2.3",
+    "g": "^2.0.1",
     "global": "^4.4.0",
     "promises-aplus-tests": "^2.1.2",
     "tsc": "^2.0.4",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.4",
+    "yarn": "^1.22.22"
   }
 }
