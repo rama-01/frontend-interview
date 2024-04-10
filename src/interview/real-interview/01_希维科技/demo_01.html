@@ -1,0 +1,28 @@
+<!-- 浮动 -->
+<body>
+  <!-- html -->
+  <div id="outer" class="clearfix">
+    <div id="inner"></div>
+  </div>
+</body>
+<style>
+  /* css */
+  #outer {
+    width: 100px;
+    border: 1px solid red;
+  }
+  #inner {
+    width: 50px;
+    height: 200px;
+    float: left;
+    background-color: blue;
+  }
+  .clearfix::after {
+    content: '';
+    display: block;
+    clear: both;
+    /* 补充代码：在网页中看不到伪元素 */
+    /* height: 0;
+        visibility: hidden; */
+  }
+</style>

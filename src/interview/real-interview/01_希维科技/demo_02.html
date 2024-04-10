@@ -1,0 +1,21 @@
+<!-- 通过外边距重叠的例子来理解BFC -->
+<body>
+  <div class="dv1"></div>
+  <div style="overflow: hidden;">
+    <div class="dv2"></div>
+  </div>
+</body>
+<style>
+  .dv1 {
+    width: 100px;
+    height: 100px;
+    background-color: pink;
+    margin-bottom: 30px;
+  }
+  .dv2 {
+    width: 100px;
+    height: 100px;
+    background-color: skyblue;
+    margin-top: 30px;
+  }
+</style>
