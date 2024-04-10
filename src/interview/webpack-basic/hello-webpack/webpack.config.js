@@ -50,5 +50,9 @@ module.exports = {
                 use:['style-loader', 'css-loader']
             }
         ]
+    },
+    devServer: {
+        port: 9000,
+        open: true,
     }
 }

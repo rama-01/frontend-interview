@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/rama-01/frontend-interview#readme",
   "dependencies": {
-    "-": "0.0.1",
     "create-vite": "^5.2.3",
     "g": "^2.0.1",
     "global": "^4.4.0",
