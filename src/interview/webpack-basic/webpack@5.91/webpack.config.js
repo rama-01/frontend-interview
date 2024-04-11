@@ -1,16 +1,15 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-let pathsToClean = [
-    'dist',
-]
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/app.js',
+    entry: {
+        "app.bundle": './src/app.js'
+    },
     output: {
         path: __dirname + '/dist',
-        filename: 'app.bundle.js'
+        filename: '[name].[chunkhash].js'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -21,25 +20,27 @@ module.exports = {
             },
             hash: true,
         }),
-        // new CleanWebpackPlugin(pathsToClean),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: ['dist'],
+        }),
     ],
     module: {
         rules: [
             {
                 test: /\.scss$/,
+                exclude: /node_modules|\.txt$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
-            { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-            { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
-            // {
-            //     test: /.js$/,
-            //     loader: 'babel-loader',
-            //     exclude: /node_modules/,
-            //     options: {
-            //         presets: ['react', 'es2015'],
-            //         plugins: ['transform-class-plugins']
-            //     }
-            // }
+            // { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+            // { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+            {
+                test: /\.(js|jsx)$/,
+                loader: 'babel-loader',
+                exclude: /node_modules|\.txt$/,
+                options: {
+                    presets: ['@babel/preset-env', '@babel/preset-react']
+                }
+            }
         ]
     },
     devServer: {

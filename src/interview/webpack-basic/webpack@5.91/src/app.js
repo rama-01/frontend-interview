@@ -7,3 +7,5 @@ ReactDOM.render(
     <Root></Root>,
     document.getElementById('root')
 );
+
+const foo = 'hello webpack'

@@ -24,6 +24,7 @@
     "promises-aplus-tests": "^2.1.2",
     "tsc": "^2.0.4",
     "typescript": "^5.4.4",
+    "vue": "2",
     "yarn": "^1.22.22"
   }
 }
