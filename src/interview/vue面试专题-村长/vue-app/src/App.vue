@@ -5,8 +5,12 @@
   </div>
   <hr />
   <input type="text" v-focus />
+  <hr />
+  {{ counter.count }}
+  <button @click="counter.decrement">decrement</button>
 </template>
 <script lang="ts" setup>
+import { useCounterStore } from './stores/counter'
 import { ref, reactive, watch, watchEffect } from 'vue'
 
 const count = ref(0)
@@ -25,4 +29,8 @@ watch(
 // const vFocus = {
 //   mounted: (el) => el.focus()
 // }
+
+/* use pinia */
+// console.log(useCounterStore())
+const counter = useCounterStore()
 </script>
