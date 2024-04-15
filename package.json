@@ -26,5 +26,6 @@
     "typescript": "^5.4.4",
     "vue": "2",
     "yarn": "^1.22.22"
-  }
+  },
+  "devDependencies": {}
 }
