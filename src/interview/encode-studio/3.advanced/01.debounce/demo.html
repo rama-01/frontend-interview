@@ -1,0 +1,23 @@
+<body></body>
+<script>
+    // 首次不立即执行
+    function debounce(func, wait) {
+        let timer
+
+        return function () {
+            const context = this
+            const args = arguments
+
+            clearTimeout(timer)
+            timer = setTimeout(function () {
+                func.apply(context, args)
+            }, wait)
+        }
+    }
+
+    function getUserAction(e) {
+        document.documentElement.innerHTML = `${e.clientX},${e.clientY}`
+    }
+
+    document.documentElement.onmousemove = debounce(getUserAction, 1000)
+</script>

@@ -20,7 +20,7 @@ class MyPromise {
         }
 
         function reject(reason) {
-            if (that.state === REJECTED) {
+            if (that.state === PENDING) {
                 that.state = REJECTED
                 that.reason = reason
                 that.onRejectedCallbacks.forEach(cb => cb(that.reason))
