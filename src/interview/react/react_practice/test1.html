@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>React 生命周期示例</title>
+        <script src="https://cdn.jsdelivr.net/npm/react@15.7.0/dist/react.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/react-dom@15.7.0/dist/react-dom.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="text/babel">
+            function NameField({valueUpdated}) {
+                return (
+                    <input
+                        onChange={(event) => valueUpdated(event.target.value)}
+                    />
+                )
+            }
+            
+            class App extends React.Component {
+                constructor(props) {
+                    super(props)
+                    console.log(this)
+                    this.state = {name: 'React in patterns'}
+                    this._buttonClick = this._handleButtonClick.bind(this)
+                }
+                render() {
+                    return (
+                        <button onClick={this._buttonClick}>
+                            click me
+                        </button>
+                    )
+                }
+                _handleButtonClick() {
+                    console.log(this)
+                    console.log(`Button is clicked inside ${this.state.name}`)
+                    // 导致
+                    // Uncaught TypeError: Cannot read property 'state' of null
+                }
+            }
+
+            ReactDOM.render(<App />, document.getElementById('app'))
+        </script>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="draggable" style="position: absolute; width: 100px; height: 100px; background-color: blue;">
+        Drag me!
+    </div>
+    <script>
+        const element = document.getElementById('draggable');
+
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        element.addEventListener('mousedown', (e) => {
+            // 记录初始偏移量
+            isDragging = true;
+            offsetX = e.clientX - element.offsetLeft;
+            offsetY = e.clientY - element.offsetTop;
+            element.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            // 计算新位置并更新样式
+            const x = e.clientX - offsetX;
+            const y = e.clientY - offsetY;
+            element.style.left = `${x}px`;
+            element.style.top = `${y}px`;
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            element.style.cursor = 'grab';
+        });
+    </script>
+</body>
+
+</html>

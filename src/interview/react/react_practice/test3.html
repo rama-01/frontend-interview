@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>React</title>
+        <script src="https://cdn.jsdelivr.net/npm/react@15.7.0/dist/react.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/react-dom@15.7.0/dist/react-dom.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    </head>
+
+    <body>
+        <div id="app"></div>
+        <script type="text/babel">
+            var Store = {
+                _flag: false,
+                set: function (value) {
+                    this._flag = value
+                },
+                get: function () {
+                    return this._flag
+                }
+            }
+            class Switcher extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {flag: false}
+                    this._onButtonClick = (e) => {
+                        this.setState({flag: !this.state.flag}, () => {
+                            this.props.onChange(this.state.flag)
+                        })
+                    }
+                }
+                render() {
+                    return (
+                        <button onClick={this._onButtonClick}>
+                            {this.state.flag ? 'lights on' : 'lights off'}
+                        </button>
+                    )
+                }
+            }
+            function App() {
+                return <Switcher onChange={Store.set.bind(Store)} />
+            }
+            ReactDOM.render(
+                <App time={new Date()} />,
+                document.getElementById('app')
+            )
+        </script>
+    </body>
+</html>

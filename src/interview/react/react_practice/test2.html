@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>React 生命周期示例</title>
+        <script src="https://cdn.jsdelivr.net/npm/react@15.7.0/dist/react.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/react-dom@15.7.0/dist/react-dom.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    </head>
+
+    <body>
+        <div id="app"></div>
+        <script type="text/babel">
+            class App extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {time: this.props.time}
+                    this._update = this._updateTime.bind(this)
+                }
+                render() {
+                    const time = this._formatTime(this.state.time)
+                    return (
+                        <h1>
+                            {time.hours} : {time.minutes} : {time.seconds}
+                        </h1>
+                    )
+                }
+                componentDidMount() {
+                    this._interval = setInterval(this._update, 1000)
+                }
+                componentWillUnmount() {
+                    clearInterval(this._interval)
+                }
+                _formatTime(time) {
+                    var [hours, minutes, seconds] = [
+                        time.getHours(),
+                        time.getMinutes(),
+                        time.getSeconds()
+                    ].map((num) => (num < 10 ? '0' + num : num))
+                    return {hours, minutes, seconds}
+                }
+                _updateTime() {
+                    this.setState({
+                        time: new Date(this.state.time.getTime() + 1000)
+                    })
+                }
+            }
+            ReactDOM.render(<App time={new Date()} />, document.getElementById('app'))
+        </script>
+    </body>
+</html>

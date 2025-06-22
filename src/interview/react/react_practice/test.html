@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>React 生命周期示例</title>
+        <script src="https://cdn.jsdelivr.net/npm/react@15.7.0/dist/react.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/react-dom@15.7.0/dist/react-dom.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="text/babel">
+            var LifecycleDemo = React.createClass({
+                // 1. getDefaultProps (已废弃)
+                getDefaultProps: function () {
+                    console.log('1️⃣ getDefaultProps')
+                    return {defaultProp: '默认值'}
+                },
+
+                // 2. getInitialState (已废弃)
+                getInitialState: function () {
+                    console.log('2️⃣ getInitialState')
+                    return {count: 0}
+                },
+
+                // 3. componentWillMount (已废弃)
+                componentWillMount: function () {
+                    console.log('3️⃣ componentWillMount')
+                },
+
+                // 4. render
+                render: function () {
+                    console.log('4️⃣ render')
+                    return (
+                        <div>
+                            <h1>生命周期演示</h1>
+                            <p>Prop 值: {this.props.defaultProp}</p>
+                            <p>状态值: {this.state.count}</p>
+                            <button
+                                onClick={() =>
+                                    this.setState({count: this.state.count + 1})
+                                }
+                            >
+                                增加计数
+                            </button>
+                            <button onClick={() => this.forceUpdate()}>
+                                强制更新
+                            </button>
+                        </div>
+                    )
+                },
+
+                // 5. componentDidMount
+                componentDidMount: function () {
+                    console.log('5️⃣ componentDidMount')
+                },
+
+                // 6. componentWillReceiveProps (已废弃)
+                componentWillReceiveProps: function (nextProps) {
+                    console.log('6️⃣ componentWillReceiveProps', nextProps)
+                },
+
+                // 7. shouldComponentUpdate
+                shouldComponentUpdate: function (nextProps, nextState) {
+                    console.log('7️⃣ shouldComponentUpdate')
+                    return true // 返回 false 可阻止更新
+                },
+
+                // 8. componentWillUpdate (已废弃)
+                componentWillUpdate: function (nextProps, nextState) {
+                    console.log('8️⃣ componentWillUpdate', nextProps, nextState)
+                },
+
+                // 9. componentDidUpdate
+                componentDidUpdate: function (prevProps, prevState) {
+                    console.log('9️⃣ componentDidUpdate', prevProps, prevState)
+                }
+            })
+
+            // 渲染组件
+            ReactDOM.render(<LifecycleDemo />, document.getElementById('app'))
+        </script>
+    </body>
+</html>

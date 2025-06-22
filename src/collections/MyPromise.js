@@ -307,6 +307,10 @@ MyPromise.allSettled = function (promiseList) {
     return new MyPromise(function (resolve) {
         var length = promiseList.length;
         var result = [];
+
+
+
+        
         var count = 0;
 
         if (length === 0) {
