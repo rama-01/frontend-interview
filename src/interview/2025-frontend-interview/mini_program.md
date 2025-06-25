@@ -39,3 +39,13 @@ wx.login()获取code-获取openid-预支付订单请求-wx.requestPayment()
 网络请求优化：缓存机制，限制请求数量(防抖和节流)，分批加载
 
 优化页面渲染性能：启动速度优化(减少全局数据，分包)，合理使用setData，组件化，内存管理，合理使用异步任务
+
+2.8 小程序页面传值
+
+1. 使用wx.navigateTo()传值
+2. events页面间通信接口-eventChannel
+3. 数据缓存
+4. 页面栈传值-getCurrentPages()
+5. 设置全局属性-globalData
+
+2.9
