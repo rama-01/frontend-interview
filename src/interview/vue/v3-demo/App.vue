@@ -1,8 +1,9 @@
 <template>
-  <div class="app-container">
+  <!-- <div class="app-container">
     <h1>大文件上传与断点续传示例</h1>
     <FileUpload />
-  </div>
+  </div> -->
+  <router-view />
 </template>
 
 <script lang="ts">
@@ -16,16 +17,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-.app-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-</style>

@@ -55,3 +55,17 @@ export const calculateProgress = (loaded: number, total: number): number => {
 export const generateId = (): string => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
+
+// 替换原 btoa 实现
+export const  unicodeToBase64 = (str: string) =>  {
+  const encoder = new TextEncoder();          // 将字符串编码为 UTF-8 字节数组
+  const uint8Array = encoder.encode(str);
+  
+  // 将 Uint8Array 转换为二进制字符串（每个字节对应一个字符）
+  let binaryString = '';
+  for (let i = 0; i < uint8Array.length; i++) {
+    binaryString += String.fromCharCode(uint8Array[i]);
+  }
+  
+  return btoa(binaryString);  // 对二进制字符串进行 Base64 编码
+}

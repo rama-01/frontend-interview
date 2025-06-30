@@ -36,9 +36,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getUploadStatus, uploadChunk, mergeChunks, cancelUpload } from '../service/uploadService'
+import {unicodeToBase64} from '../utils/fileUtils'
 
 // 分片大小：2MB
 const CHUNK_SIZE = 2 * 1024 * 1024
@@ -88,7 +89,7 @@ export default defineComponent({
       // 计算文件唯一标识（文件名+大小+最后修改时间）
       debugger
       const fileInfo = `${currentFile.value.name}-${currentFile.value.size}-${currentFile.value.lastModified}`
-      uploadInfo.identifier = btoa(fileInfo)
+      uploadInfo.identifier = unicodeToBase64(fileInfo)
       uploadInfo.totalChunks = Math.ceil(currentFile.value.size / CHUNK_SIZE)
       uploadInfo.uploadedChunks.clear()
       uploadInfo.currentChunkIndex = 0

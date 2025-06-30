@@ -1,25 +1,31 @@
 {
-  "name": "vue3-file-upload-demo",
-  "version": "1.0.0",
-  "description": "Vue3大文件上传和断点续传示例",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "axios": "^1.4.0",
-    "element-plus": "^2.3.8",
-    "esbuild": "0.15.10",
-    "ts-node": "^10.9.2",
-    "vue": "^3.3.4"
-  },
-  "devDependencies": {
-    "@types/node": "^20.4.5",
-    "@vitejs/plugin-vue": "^6.0.0",
-    "typescript": "^5.8.3",
-    "vite": "^4.4.7",
-    "vue-tsc": "^2.2.10"
-  }
+    "name": "vue3-file-upload-demo",
+    "version": "1.0.0",
+    "description": "Vue3大文件上传和断点续传示例",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vue-tsc --noEmit && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "js-cookie": "^3.0.5",
+        "vite": "^4.4.7",
+        "vue": "^3.3.4",
+        "vue-router": "^4.5.1"
+    },
+    "devDependencies": {
+        "@types/js-cookie": "^3.0.6",
+        "@types/node": "^20.4.5",
+        "@vitejs/plugin-vue": "^6.0.0",
+        "axios": "^1.4.0",
+        "element-plus": "^2.3.8",
+        "esbuild": "0.15.10",
+        "normalize.css": "^8.0.1",
+        "sass": "^1.89.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.8.3",
+        "unplugin-auto-import": "^19.3.0",
+        "vue-tsc": "^2.2.10"
+    }
 }
