@@ -1,7 +1,7 @@
 // vite.config.ts 最终版
 import {defineConfig} from 'vite'
-import * as vue from '@vitejs/plugin-vue'
-import * as path from 'path'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig({
