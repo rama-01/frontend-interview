@@ -1,5 +1,5 @@
 <template>
-    <div class="app-main">
+    <div class="app_main">
         <div class="start_record_control" @click="handleStartRecordProcess">
             <el-button type="primary" data-action="start">录音开启</el-button>
             <el-button type="primary" data-action="pause">暂停</el-button>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import Recorder from '@/utils/recorderEnhancer'
+import Recorder from '@/utils/record/recorderEnhancer'
 
 const duration = ref(0)
 const sCanvas = ref<HTMLCanvasElement>()
@@ -282,7 +282,7 @@ const destroyRecord = () => {
 </script>
 
 <style scoped lang="scss">
-.app-main {
+.app_main {
     .start_record_control {
         padding: 24px 20px 0px;
     }

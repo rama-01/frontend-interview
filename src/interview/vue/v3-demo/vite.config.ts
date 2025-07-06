@@ -16,7 +16,7 @@ export default defineConfig({
         extensions: ['.ts', '.js', '.vue', '.json'],
         alias: {
             // 注意路径映射需与文件结构匹配
-            '@': path.resolve(__dirname, './src')
+            '@': path.resolve(__dirname, '/src')
             // '~': path.resolve(__dirname, './')
         }
     },

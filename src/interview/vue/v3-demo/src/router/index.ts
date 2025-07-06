@@ -8,7 +8,7 @@ const constantRoutes: RouteRecordRaw[] = [
     {
         path: '/login',
         name: 'Login',
-        component: () => import('@/views/login.vue')
+        component: () => import('@/views/login/index.vue')
     },
     {
         path: '/',
@@ -18,12 +18,22 @@ const constantRoutes: RouteRecordRaw[] = [
             {
                 path: 'index',
                 name: 'Index',
-                component: () => import('@/views/index.vue')
+                component: () => import('@/views/dashboard/index.vue')
             },
             {
-                path: '/test1',
-                name: 'Test1',
-                component: () => import('@/views/test1.vue')
+                path: 'record',
+                name: 'Record',
+                component: () => import('@/views/record/index.vue')
+            },
+            {
+                path: 'upload',
+                name: 'FileUpload',
+                component: () => import('@/views/upload/index.vue')
+            },
+            {
+                path: 'worker',
+                name: 'Worker',
+                component: () => import('@/views/worker/index.vue')
             }
         ]
     }

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC 音视频通信</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #video-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        video {
+            width: 400px;
+            height: 300px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>WebRTC 音视频通信</h1>
+    <div id="video-container">
+        <video id="local-video" autoplay muted></video>
+        <video id="remote-video" autoplay></video>
+    </div>
+    <button id="start-btn">开启摄像头</button>
+    <button id="call-btn" disabled>发起通话</button>
+    <button id="hangup-btn" disabled>挂断</button>
+    <script>
+        // 获取 DOM 元素
+        const localVideo = document.getElementById('local-video');
+        const remoteVideo = document.getElementById('remote-video');
+        const startBtn = document.getElementById('start-btn');
+        const callBtn = document.getElementById('call-btn');
+        const hangupBtn = document.getElementById('hangup-btn');
+
+        // 全局变量
+        let localStream;
+        let peerConnection;
+        const socket = new WebSocket('ws://localhost:3003'); // 连接到信令服务器
+
+        // 1. 开启摄像头
+        startBtn.onclick = async () => {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                localVideo.srcObject = localStream;
+                startBtn.disabled = true;
+                callBtn.disabled = false;
+            } catch (err) {
+                console.error("获取媒体设备失败:", err);
+            }
+        };
+
+        // 2. 创建 RTCPeerConnection 并设置 ICE 候选
+        function createPeerConnection() {
+            const config = {
+                iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+            };
+            peerConnection = new RTCPeerConnection(config);
+
+            // 添加本地流
+            localStream.getTracks().forEach(track => {
+                peerConnection.addTrack(track, localStream);
+            });
+
+            // 监听远程流
+            peerConnection.ontrack = (event) => {
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            // ICE 候选处理
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    socket.send(JSON.stringify({ type: 'candidate', candidate: event.candidate }));
+                }
+            };
+        }
+
+        // 3. 发起通话
+        callBtn.onclick = async () => {
+            createPeerConnection();
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            socket.send(JSON.stringify({ type: 'offer', offer }));
+            hangupBtn.disabled = false;
+        };
+
+        // 4. 挂断通话
+        hangupBtn.onclick = () => {
+            peerConnection.close();
+            peerConnection = null;
+            remoteVideo.srcObject = null;
+            hangupBtn.disabled = true;
+            callBtn.disabled = false;
+        };
+
+        // 5. WebSocket 信令处理
+        socket.onmessage = async (event) => {
+            const message = JSON.parse(event.data);
+            if (!peerConnection) createPeerConnection();
+            if (message.type === 'offer') {
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(message.offer));
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+                socket.send(JSON.stringify({ type: 'answer', answer }));
+            } else if (message.type === 'answer') {
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(message.answer));
+            } else if (message.type === 'candidate') {
+                await peerConnection.addIceCandidate(new RTCIceCandidate(message.candidate));
+            }
+        };
+    </script>
+</body>
+
+</html>
