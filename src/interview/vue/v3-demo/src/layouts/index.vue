@@ -3,7 +3,7 @@
         <navigationBar />
         <router-view v-slot="{Component, route}">
             <transition name="el-fade-in" mode="out-in">
-                <keep-alive>
+                <keep-alive :exclude="['Optimize']">
                     <component :is="Component" :key="route.path" />
                 </keep-alive>
             </transition>
@@ -13,8 +13,6 @@
 
 <script setup lang="ts">
 import navigationBar from './components/navigationBar.vue'
-
-
 </script>
 
 <style scoped lang="scss"></style>

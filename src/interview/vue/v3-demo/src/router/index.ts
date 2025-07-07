@@ -34,6 +34,11 @@ const constantRoutes: RouteRecordRaw[] = [
                 path: 'worker',
                 name: 'Worker',
                 component: () => import('@/views/worker/index.vue')
+            },
+            {
+                path: 'optimize',
+                name: 'Optimize',
+                component: () => import('@/views/optimize/index.vue')
             }
         ]
     }

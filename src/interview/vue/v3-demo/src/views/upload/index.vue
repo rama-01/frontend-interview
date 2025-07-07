@@ -4,50 +4,54 @@
             <template #header>
                 <div class="card-header">
                     <span>文件上传</span>
-                    <el-button type="primary" @click="handleSelectFile"
-                        >选择文件</el-button
-                    >
+                    <el-button type="primary" @click="handleSelectFile">
+                        选择文件
+                    </el-button>
                     <input
                         type="file"
                         ref="fileInput"
                         style="display: none"
-                        @change="handleFileChange"
-                    />
+                        @change="handleFileChange" />
                 </div>
             </template>
 
             <div v-if="currentFile" class="file-info">
-                <p><strong>文件名:</strong> {{ currentFile.name }}</p>
+                <p>
+                    <strong>文件名:</strong>
+                    {{ currentFile.name }}
+                </p>
                 <p>
                     <strong>文件大小:</strong>
                     {{ formatFileSize(currentFile.size) }}
                 </p>
-                <p><strong>上传进度:</strong> {{ uploadProgress }}%</p>
+                <p>
+                    <strong>上传进度:</strong>
+                    {{ uploadProgress }}%
+                </p>
 
                 <el-progress
                     :percentage="uploadProgress"
-                    :status="uploadStatus"
-                ></el-progress>
+                    :status="uploadStatus"></el-progress>
 
                 <div class="upload-actions">
                     <el-button
                         type="success"
                         @click="startUpload"
-                        :disabled="isUploading"
-                        >开始上传</el-button
-                    >
+                        :disabled="isUploading">
+                        开始上传
+                    </el-button>
                     <el-button
                         type="warning"
                         @click="pauseUpload"
-                        :disabled="!isUploading"
-                        >暂停上传</el-button
-                    >
+                        :disabled="!isUploading">
+                        暂停上传
+                    </el-button>
                     <el-button
                         type="danger"
                         @click="cancelUpload"
-                        :disabled="!currentFile"
-                        >取消上传</el-button
-                    >
+                        :disabled="!currentFile">
+                        取消上传
+                    </el-button>
                 </div>
             </div>
 
@@ -80,7 +84,7 @@ export default defineComponent({
         const uploadProgress = ref(0)
         const isUploading = ref(false)
         const isPaused = ref(false)
-        const uploadStatus = ref('normal')
+        const uploadStatus = ref<any>('success')
 
         // 上传状态信息
         const uploadInfo = reactive({
@@ -115,7 +119,6 @@ export default defineComponent({
             uploadStatus.value = 'normal'
 
             // 计算文件唯一标识（文件名+大小+最后修改时间）
-            debugger
             const fileInfo = `${currentFile.value.name}-${currentFile.value.size}-${currentFile.value.lastModified}`
             uploadInfo.identifier = unicodeToBase64(fileInfo)
             uploadInfo.totalChunks = Math.ceil(
