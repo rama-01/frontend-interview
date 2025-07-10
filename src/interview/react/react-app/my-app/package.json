@@ -13,9 +13,13 @@
     "dependencies": {
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-router-dom": "^7.6.3",
         "react-scripts": "^5.0.1"
     },
     "devDependencies": {
+        "@babel/core": "^7.28.0",
+        "@babel/preset-react": "^7.27.1",
+        "antd": "^5.26.4",
         "autoprefixer": "^10.4.19",
         "postcss": "^8.4.38",
         "prettier": "^3.2.5",

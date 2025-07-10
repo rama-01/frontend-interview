@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>实时聊天</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+            }
+
+            #messages {
+                height: 300px;
+                overflow-y: scroll;
+                border: 1px solid #ccc;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+
+            #chat-form {
+                display: flex;
+            }
+
+            #chat-form input {
+                flex-grow: 1;
+                padding: 10px;
+            }
+
+            #chat-form button {
+                padding: 10px;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="messages"></div>
+        <form id="chat-form">
+            <input id="msg" autocomplete="off" />
+            <button>发送</button>
+        </form>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io()
+            const messages = document.getElementById('messages')
+            const form = document.getElementById('chat-form')
+            const input = document.getElementById('msg')
+            form.addEventListener('submit', function (e) {
+                e.preventDefault()
+                if (input.value) {
+                    socket.emit('chat message', input.value)
+                    input.value = '' // 清空输入框
+                }
+            })
+            socket.on('connect', () => {
+                const status = document.createElement('div')
+                status.textContent = '已连接到服务器'
+                status.classList.add('status')
+                messages.appendChild(status)
+            })
+
+            socket.on('disconnect', () => {
+                const status = document.createElement('div')
+                status.textContent = '已断开连接'
+                status.classList.add('status')
+                messages.appendChild(status)
+            })
+            socket.on('chat message', function (msg) {
+                const item = document.createElement('div')
+                item.innerHTML = msg
+                item.classList.add('message')
+                messages.appendChild(item)
+                messages.scrollTop = messages.scrollHeight
+            })
+            socket.on('history messages', function (history) {
+                history.forEach((msg) => {
+                    appendMessage(msg)
+                })
+                messages.scrollTop = messages.scrollHeight
+            })
+
+            function appendMessage(msg) {
+                const item = document.createElement('div')
+                item.textContent = msg
+                item.classList.add('message')
+                messages.appendChild(item)
+            }
+        </script>
+    </body>
+</html>

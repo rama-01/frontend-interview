@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>虚拟列表 - 原生 JS</title>
+  <style>
+    #container {
+      height: 300px; /* 设置固定高度，超出部分滚动 */
+      overflow-y: auto;
+      position: relative;
+      border: 1px solid #ccc;
+    }
+    #phantom {
+      height: 0; /* 最终高度将被 JS 设置 */
+    }
+    #visible {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="phantom"></div> <!-- 占位用容器撑起滚动条 -->
+    <div id="visible"></div> <!-- 实际渲染可视区域数据 -->
+  </div>
+
+  <script>
+    const container = document.getElementById('container'); // 获取滚动容器
+    const phantom = document.getElementById('phantom');     // 占位容器
+    const visible = document.getElementById('visible');     // 渲染内容的容器
+
+    const itemHeight = 30; // 每一项的固定高度
+    const total = 10000;   // 总数据条数
+    const visibleCount = Math.ceil(container.clientHeight / itemHeight); // 可视区域最多渲染多少项
+    const data = Array.from({ length: total }, (_, i) => `Item ${i + 1}`); // 生成 1~10000 的数据项
+
+    phantom.style.height = `${total * itemHeight}px`; // 设置占位高度：总条数 × 每项高度
+
+
+    function render(startIndex) {
+      // 取出可视区域需要渲染的子集数据
+      const visibleData = data.slice(startIndex, startIndex + visibleCount);
+
+      // 生成 HTML，每项设置高度
+      visible.innerHTML = visibleData.map(item =>
+        `<div style="height:${itemHeight}px; border-bottom:1px solid #eee; padding-left: 8px;">${item}</div>`
+      ).join('');
+
+      // 设置渲染容器向下偏移位置
+      visible.style.transform = `translateY(${startIndex * itemHeight}px)`;
+    }
+
+    // 初始化：从第 0 项开始渲染
+    render(0);
+
+    // 监听滚动事件
+    container.addEventListener('scroll', () => {
+      // 计算滚动位置对应的起始索引
+      const start = Math.floor(container.scrollTop / itemHeight);
+      render(start);
+    });
+  </script>
+</body>
+</html>
+
