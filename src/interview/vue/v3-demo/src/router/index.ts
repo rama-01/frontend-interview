@@ -39,6 +39,11 @@ const constantRoutes: RouteRecordRaw[] = [
                 path: 'optimize',
                 name: 'Optimize',
                 component: () => import('@/views/optimize/index.vue')
+            },
+            {
+                path: 'swigger',
+                name: 'Swigger',
+                component: () => import('@/views/swigger/index.vue')
             }
         ]
     }
