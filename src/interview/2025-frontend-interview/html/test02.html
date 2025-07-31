@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .one{
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+    .two{
+      width: 200px;
+      height: 200px;
+      background-color: springgreen;
+    }
+  </style>
+</head>
+<body>
+  <div class="one" draggable="true" ondragstart="handleOndragstart(event)">11</div>
+  <div class="two" ondrop="handleOndrop(event)" ondragover="handleOndragover(event)">22</div>
+  <script>
+    const handleOndrop = (e) => {
+        const oneEle = document.querySelector('.one');
+        e.preventDefault();
+        e.target.appendChild(oneEle);
+    }
+
+    const handleOndragover = (e) => {
+        e.preventDefault();
+    }
+
+    const handleOndragstart = (e) => {
+    }   
+  </script>
+</body>
+</html>

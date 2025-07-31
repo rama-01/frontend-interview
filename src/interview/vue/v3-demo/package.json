@@ -10,14 +10,14 @@
     },
     "dependencies": {
         "js-cookie": "^3.0.5",
-        "vite": "^4.4.7",
+        "vite": "^5.0.0",
         "vue": "^3.3.4",
         "vue-router": "^4.5.1"
     },
     "devDependencies": {
         "@types/js-cookie": "^3.0.6",
         "@types/node": "^20.4.5",
-        "@vitejs/plugin-vue": "^6.0.0",
+        "@vitejs/plugin-vue": "^5.0.0",
         "@vue-macros/volar": "^3.0.0-beta.15",
         "axios": "^1.4.0",
         "element-plus": "^2.3.8",
